@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inboedelwaardemeter</title>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.5/dist/signature_pad.umd.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loader"></div>
+        <p>Formulier wordt verzonden...</p>
+    </div>
+
+    <header>
+        <img src="logo.png" alt="Klaas Vis Logo" class="logo">
+    </header>
+
+    <main>
+        <div class="form-wrapper">
+            <form id="inventoryForm">
+                <h1>Inboedelwaardemeter</h1>
+
+                <div class="form-container">
+                    <!-- Algemene gegevens -->
+                    <div class="form-part">
+                        <h2>Algemene Gegevens</h2>
+                        <div class="form-section narrow">
+                            <label for="polisnummer">Polisnummer *</label>
+                            <input type="text" id="polisnummer" name="polisnummer" required>
+                        </div>
+                        <div class="form-section narrow">
+                            <label for="email">E-mailadres (optioneel)</label>
+                            <input type="email" id="email" name="email">
+                        </div>
+                    </div>
+
+                    <!-- Deel A -->
+                    <div class="form-part" id="deelA">
+                        <h2>Deel A: Persoonlijke Gegevens</h2>
+                        <div class="form-section">
+                            <label>Wat is de leeftijd van de hoofdkostwinner? *</label>
+                            <select id="leeftijd" name="leeftijd" required>
+                                <option value="">Kies een optie</option>
+                                <option value="35 jaar en jonger">35 jaar en jonger</option>
+                                <option value="36 t/m 50 jaar">36 t/m 50 jaar</option>
+                                <option value="51 t/m 70 jaar">51 t/m 70 jaar</option>
+                                <option value="71 jaar en ouder">71 jaar en ouder</option>
+                            </select>
+                        </div>
+                        <div class="form-section">
+                            <label>Hoe ziet uw gezinssamenstelling eruit? *</label>
+                            <select id="gezinssamenstelling" name="gezinssamenstelling" required>
+                                <option value="">Kies een optie</option>
+                                <option value="Alleenstaande">Alleenstaande (met/zonder kinderen)</option>
+                                <option value="Echtpaar/samenwonenden">Echtpaar/samenwonenden (met/zonder kinderen)</option>
+                            </select>
+                        </div>
+                        <div class="form-section">
+                            <label>Wat is het netto maandinkomen van de hoofdkostwinner? *</label>
+                            <select id="inkomen" name="inkomen" required>
+                                <option value="">Kies een optie</option>
+                                <option value="T/m € 1.000">Tot € 1.000</option>
+                                <option value="T/m € 2.000">Tot € 2.000</option>
+                                <option value="T/m € 3.000">Tot € 3.000</option>
+                                <option value="T/m € 4.850">Tot € 4.850</option>
+                                <option value="T/m € 5.850">Tot € 5.850</option>
+                                <option value="T/m € 7.000">Tot € 7.000</option>
+                            </select>
+                        </div>
+                        <div class="form-section">
+                            <label>Is de oppervlakte van uw woning (inclusief bijgebouwen) groter dan 300 m²? *</label>
+                            <div class="switch">
+                                <input type="radio" id="oppervlakteJa" name="oppervlakte" value="Ja" required>
+                                <label class="switch-label" for="oppervlakteJa">Ja</label>
+                                <input type="radio" id="oppervlakteNee" name="oppervlakte" value="Nee">
+                                <label class="switch-label" for="oppervlakteNee">Nee</label>
+                            </div>
+                            <div id="oppervlakteGroot" class="hidden">
+                                <label>Wat is de totale oppervlakte?</label>
+                                <select id="totaleOppervlakte" name="totaleOppervlakte">
+                                    <option value="">Kies een optie</option>
+                                    <option value="300 m² t/m 350 m²">300 m² t/m 350 m²</option>
+                                    <option value="351 m² t/m 400 m²">351 m² t/m 400 m²</option>
+                                    <option value="401 m² t/m 450 m²">401 m² t/m 450 m²</option>
+                                </select>
+                            </div>
+                            <div id="kamers" class="hidden">
+                                <label>Hoeveel kamers heeft uw woning?</label>
+                                <select id="aantalKamers" name="aantalKamers">
+                                    <option value="">Kies een optie</option>
+                                    <option value="1 of 2 kamers">1 of 2 kamers</option>
+                                    <option value="3 t/m 5 kamers">3 t/m 5 kamers</option>
+                                    <option value="6 t/m 8 kamers">6 t/m 8 kamers</option>
+                                    <option value="9 of 10 kamers">9 of 10 kamers</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Deel B -->
+                    <div class="form-part" id="deelB">
+                        <h2>Deel B: Bezittingen en Woning</h2>
+                        <div class="form-section">
+                            <label>Is de waarde van uw audiovisuele/computerapparatuur meer dan € 12.000,-? *</label>
+                            <div class="switch">
+                                <input type="radio" id="audioJa" name="audio" value="Ja" required>
+                                <label class="switch-label" for="audioJa">Ja</label>
+                                <input type="radio" id="audioNee" name="audio" value="Nee">
+                                <label class="switch-label" for="audioNee">Nee</label>
+                            </div>
+                            <div id="audioBedrag" class="hidden">
+                                <label>Wat is het extra bedrag boven € 12.000,-?</label>
+                                <select id="audioExtra" name="audioExtra">
+                                    <option value="">Kies een optie</option>
+                                    <option value="€ 2.000,-">€ 2.000,-</option>
+                                    <option value="€ 4.000,-">€ 4.000,-</option>
+                                    <option value="€ 6.000,-">€ 6.000,-</option>
+                                    <option value="€ 8.000,-">€ 8.000,-</option>
+                                    <option value="€ 10.000,-">€ 10.000,-</option>
+                                    <option value="€ 12.000,-">€ 12.000,-</option>
+                                    <option value="€ 14.000,-">€ 14.000,-</option>
+                                    <option value="€ 16.000,-">€ 16.000,-</option>
+                                    <option value="€ 20.000,-">€ 20.000,-</option>
+                                    <option value="€ 25.000,-">€ 25.000,-</option>
+                                    <option value="€ 30.000,-">€ 30.000,-</option>
+                                    <option value="€ 40.000,-">€ 40.000,-</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-section">
+                            <label>Is de waarde van uw lijfsieraden meer dan € 6.000,-? *</label>
+                            <div class="switch">
+                                <input type="radio" id="sieradenJa" name="sieraden" value="Ja" required>
+                                <label class="switch-label" for="sieradenJa">Ja</label>
+                                <input type="radio" id="sieradenNee" name="sieraden" value="Nee">
+                                <label class="switch-label" for="sieradenNee">Nee</label>
+                            </div>
+                            <div id="sieradenBedrag" class="hidden">
+                                <label>Wat is het extra bedrag boven € 6.000,-?</label>
+                                <select id="sieradenExtra" name="sieradenExtra">
+                                    <option value="">Kies een optie</option>
+                                    <option value="€ 2.000,-">€ 2.000,-</option>
+                                    <option value="€ 4.000,-">€ 4.000,-</option>
+                                    <option value="€ 6.000,-">€ 6.000,-</option>
+                                    <option value="€ 8.000,-">€ 8.000,-</option>
+                                    <option value="€ 10.000,-">€ 10.000,-</option>
+                                    <option value="€ 12.000,-">€ 12.000,-</option>
+                                    <option value="€ 14.000,-">€ 14.000,-</option>
+                                    <option value="€ 16.000,-">€ 16.000,-</option>
+                                    <option value="€ 20.000,-">€ 20.000,-</option>
+                                    <option value="€ 25.000,-">€ 25.000,-</option>
+                                    <option value="€ 30.000,-">€ 30.000,-</option>
+                                    <option value="€ 40.000,-">€ 40.000,-</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-section">
+                            <label>Is de waarde van andere bijzondere bezittingen meer dan € 15.000,-? *</label>
+                            <div class="switch">
+                                <input type="radio" id="bezittingenJa" name="bezittingen" value="Ja" required>
+                                <label class="switch-label" for="bezittingenJa">Ja</label>
+                                <input type="radio" id="bezittingenNee" name="bezittingen" value="Nee">
+                                <label class="switch-label" for="bezittingenNee">Nee</label>
+                            </div>
+                            <div id="bezittingenBedrag" class="hidden">
+                                <label>Wat is het extra bedrag boven € 15.000,-?</label>
+                                <select id="bezittingenExtra" name="bezittingenExtra">
+                                    <option value="">Kies een optie</option>
+                                    <option value="€ 2.000,-">€ 2.000,-</option>
+                                    <option value="€ 4.000,-">€ 4.000,-</option>
+                                    <option value="€ 6.000,-">€ 6.000,-</option>
+                                    <option value="€ 8.000,-">€ 8.000,-</option>
+                                    <option value="€ 10.000,-">€ 10.000,-</option>
+                                    <option value="€ 12.000,-">€ 12.000,-</option>
+                                    <option value="€ 14.000,-">€ 14.000,-</option>
+                                    <option value="€ 16.000,-">€ 16.000,-</option>
+                                    <option value="€ 20.000,-">€ 20.000,-</option>
+                                    <option value="€ 25.000,-">€ 25.000,-</option>
+                                    <option value="€ 30.000,-">€ 30.000,-</option>
+                                    <option value="€ 40.000,-">€ 40.000,-</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-section">
+                            <label>Wat voor type woning heeft u? *</label>
+                            <select id="woningType" name="woningType" required>
+                                <option value="">Kies een optie</option>
+                                <option value="Huurwoning">Huurwoning</option>
+                                <option value="Koopwoning">Koopwoning</option>
+                                <option value="Koopappartement">Koopappartement</option>
+                            </select>
+                            <div id="huurdersbelang" class="hidden">
+                                <label>Is uw huurdersbelang meer dan € 6.000,-?</label>
+                                <div class="switch">
+                                    <input type="radio" id="huurJa" name="huurdersbelang" value="Ja">
+                                    <label class="switch-label" for="huurJa">Ja</label>
+                                    <input type="radio" id="huurNee" name="huurdersbelang" value="Nee">
+                                    <label class="switch-label" for="huurNee">Nee</label>
+                                </div>
+                                <div id="huurBedrag" class="hidden">
+                                    <label>Wat is het extra bedrag boven € 6.000,-?</label>
+                                    <select id="huurExtra" name="huurExtra">
+                                        <option value="">Kies een optie</option>
+                                        <option value="€ 2.000,-">€ 2.000,-</option>
+                                        <option value="€ 4.000,-">€ 4.000,-</option>
+                                        <option value="€ 6.000,-">€ 6.000,-</option>
+                                        <option value="€ 8.000,-">€ 8.000,-</option>
+                                        <option value="€ 10.000,-">€ 10.000,-</option>
+                                        <option value="€ 12.000,-">€ 12.000,-</option>
+                                        <option value="€ 14.000,-">€ 14.000,-</option>
+                                        <option value="€ 16.000,-">€ 16.000,-</option>
+                                        <option value="€ 20.000,-">€ 20.000,-</option>
+                                        <option value="€ 25.000,-">€ 25.000,-</option>
+                                        <option value="€ 30.000,-">€ 30.000,-</option>
+                                        <option value="€ 40.000,-">€ 40.000,-</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="eigenaarsbelang" class="hidden">
+                                <label>Is uw eigenaarsbelang meer dan € 6.000,-?</label>
+                                <div class="switch">
+                                    <input type="radio" id="eigenaarJa" name="eigenaarsbelang" value="Ja">
+                                    <label class="switch-label" for="eigenaarJa">Ja</label>
+                                    <input type="radio" id="eigenaarNee" name="eigenaarsbelang" value="Nee">
+                                    <label class="switch-label" for="eigenaarNee">Nee</label>
+                                </div>
+                                <div id="eigenaarBedrag" class="hidden">
+                                    <label>Wat is het extra bedrag boven € 6.000,-?</label>
+                                    <select id="eigenaarExtra" name="eigenaarExtra">
+                                        <option value="">Kies een optie</option>
+                                        <option value="€ 2.000,-">€ 2.000,-</option>
+                                        <option value="€ 4.000,-">€ 4.000,-</option>
+                                        <option value="€ 6.000,-">€ 6.000,-</option>
+                                        <option value="€ 8.000,-">€ 8.000,-</option>
+                                        <option value="€ 10.000,-">€ 10.000,-</option>
+                                        <option value="€ 12.000,-">€ 12.000,-</option>
+                                        <option value="€ 14.000,-">€ 14.000,-</option>
+                                        <option value="€ 16.000,-">€ 16.000,-</option>
+                                        <option value="€ 20.000,-">€ 20.000,-</option>
+                                        <option value="€ 25.000,-">€ 25.000,-</option>
+                                        <option value="€ 30.000,-">€ 30.000,-</option>
+                                        <option value="€ 40.000,-">€ 40.000,-</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Handtekening -->
+                    <div class="form-part">
+                        <h2>Handtekening</h2>
+                        <div class="form-section narrow">
+                            <label>Plaats uw digitale handtekening *</label>
+                            <canvas id="signaturePad" width="300" height="100"></canvas>
+                            <button type="button" id="clearSignature">Wissen</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">Versturen</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2025 BV Assurantiekantoor Klaas Vis Ao. 1834 | Alle rechten voorbehouden</p>
+    </footer>
+
+    <!-- Chatbase Chatbot -->
+    <script>
+        (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="C60jEJW_QuVD7X3vE5rzE";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>
