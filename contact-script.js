@@ -73,7 +73,9 @@ document.getElementById('contact-form').addEventListener('submit', function(even
     let emailBody = "Contactverzoek Klaas Vis Assurantiekantoor\n\n";
 
     for (let [key, value] of formData.entries()) {
-        if (value) emailBody += `${key}: ${value}\n`;
+        if (value && value.trim() !== '') {
+            emailBody += `${key}: ${value}\n`;
+        }
     }
 
     // Toon loadingscreen
@@ -144,13 +146,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const selectElement = document.getElementById('verzoek-type');
     if (selectElement) {
         selectElement.addEventListener('change', toggleFields);
+        toggleFields(); // Roep functie direct aan bij laden
     } else {
         console.error("Element met ID 'verzoek-type' niet gevonden!");
     }
 
     // Andere event listeners
-    document.getElementById('nieuwe-postcode').addEventListener('blur', fetchPostcodeData);
-    document.getElementById('nieuwe-huisnummer').addEventListener('blur', fetchPostcodeData);
-    document.getElementById('huidig-kenteken').addEventListener('blur', () => fetchRDWData('huidig-kenteken', 'huidig-merk', 'huidig-model'));
-    document.getElementById('nieuw-kenteken').addEventListener('blur', () => fetchRDWData('nieuw-kenteken', 'nieuw-merk', 'nieuw-model'));
+    const postcode = document.getElementById('nieuwe-postcode');
+    const huisnummer = document.getElementById('nieuwe-huisnummer');
+    const huidigKenteken = document.getElementById('huidig-kenteken');
+    const nieuwKenteken = document.getElementById('nieuw-kenteken');
+
+    if (postcode) postcode.addEventListener('blur', fetchPostcodeData);
+    if (huisnummer) huisnummer.addEventListener('blur', fetchPostcodeData);
+    if (huidigKenteken) huidigKenteken.addEventListener('blur', () => fetchRDWData('huidig-kenteken', 'huidig-merk', 'huidig-model'));
+    if (nieuwKenteken) nieuwKenteken.addEventListener('blur', () => fetchRDWData('nieuw-kenteken', 'nieuw-merk', 'nieuw-model'));
 });
