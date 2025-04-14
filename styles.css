@@ -37,7 +37,7 @@ h1 {
 /* Container */
 .container {
     flex: 1;
-    max-width: 900px;
+    max-width: 1200px; /* Vergroot voor zij-aan-zij layout */
     margin: 40px auto;
     padding: 0 20px;
 }
@@ -47,6 +47,17 @@ h1 {
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.content-wrapper {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.form-wrapper {
+    flex: 1;
+    min-width: 300px;
 }
 
 h2 {
@@ -108,8 +119,14 @@ h2 {
     display: none;
 }
 
-/* Knop */
-.submit-button {
+/* Knoppen */
+.button-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.submit-button, .back-button {
     background-color: #003087;
     color: #fff;
     padding: 12px 20px;
@@ -118,11 +135,44 @@ h2 {
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    align-self: flex-start;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.back-button {
+    background-color: #666;
 }
 
 .submit-button:hover {
     background-color: #00205b;
+}
+
+.back-button:hover {
+    background-color: #444;
+}
+
+/* Contactgegevens */
+.contact-info {
+    flex: 1;
+    min-width: 300px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
+
+.contact-info h3 {
+    font-size: 1.2rem;
+    color: #003087;
+    margin-bottom: 15px;
+}
+
+.contact-info p {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.map-container {
+    margin-top: 20px;
 }
 
 /* Loadingscreen zoals Inboedelwaardemeter */
@@ -161,20 +211,18 @@ h2 {
 }
 
 /* Footer zoals Inboedelwaardemeter */
-footer {
+.footer {
     background-color: #003087;
-    color: white;
+    color: #fff;
     text-align: center;
-    padding: 20px;
+    padding: 15px;
     width: 100%;
     flex-shrink: 0;
 }
 
-footer p {
-    margin: 0;
-    font-size: 0.9em;
+.footer p {
+    font-size: 0.9rem;
 }
-
 
 /* Mobiele aanpassingen */
 @media (max-width: 600px) {
@@ -202,8 +250,16 @@ footer p {
         font-size: 0.9rem;
     }
 
-    .submit-button {
+    .button-group {
+        flex-direction: column;
+    }
+
+    .submit-button, .back-button {
         width: 100%;
         padding: 12px;
+    }
+
+    .contact-info {
+        padding: 15px;
     }
 }
