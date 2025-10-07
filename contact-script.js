@@ -10,13 +10,11 @@ function toggleFields() {
         'anders': ['anders-fields']
     };
 
-    // Verberg alles
     Object.values(fieldGroups).flat().forEach(id => {
         const el = document.getElementById(id);
         if (el) el.classList.add('hidden');
     });
 
-    // Toon juiste sectie
     if (fieldGroups[verzoekType]) {
         fieldGroups[verzoekType].forEach(id => {
             const el = document.getElementById(id);
@@ -66,7 +64,6 @@ async function fetchRDWData(kentekenField, merkField, modelField) {
 document.getElementById('contact-form').addEventListener('submit', function (event) {
     event.preventDefault();
 
-    // 🔒 Controleer eerst of reCAPTCHA is voltooid
     const recaptchaResponse = grecaptcha.getResponse();
     if (!recaptchaResponse) {
         alert("Bevestig eerst dat u geen robot bent (klik op de reCAPTCHA).");
@@ -78,23 +75,22 @@ document.getElementById('contact-form').addEventListener('submit', function (eve
     let email = formData.get('email') || 'rbuijs@klaasvis.nl';
     let emailBody = "Contactverzoek Klaas Vis Assurantiekantoor\n\n";
 
+    // ⛔ reCAPTCHA niet meesturen
     for (let [key, value] of formData.entries()) {
+        if (key === 'g-recaptcha-response') continue; // ⬅️ deze regel voorkomt het meesturen
         if (value && value.trim() !== '') {
             emailBody += `${key}: ${value}\n`;
         }
     }
 
-    // Loadingscherm aan
     document.getElementById('loadingScreen').style.display = 'flex';
 
-    // Versturen via EmailJS
     emailjs.send("service_hcds2qk", "template_xk3jqlc", {
         message: emailBody,
         reply_to: email
     })
         .then(() => {
             console.log("E-mail naar kantoor verzonden");
-            // Stuur bevestiging naar klant
             return emailjs.send("service_hcds2qk", "template_gco2wsm", {
                 to_email: email,
                 message: "Bedankt voor uw verzoek!\n\nHieronder uw ingevulde gegevens:\n" + emailBody
@@ -105,7 +101,7 @@ document.getElementById('contact-form').addEventListener('submit', function (eve
             setTimeout(() => {
                 document.getElementById('loadingScreen').style.display = 'none';
                 form.reset();
-                grecaptcha.reset(); // reset reCAPTCHA
+                grecaptcha.reset();
                 window.location.href = "https://www.klaasvis.nl";
             }, 2000);
         })
@@ -159,5 +155,3 @@ document.addEventListener('DOMContentLoaded', () => {
     if (huidigKenteken) huidigKenteken.addEventListener('blur', () => fetchRDWData('huidig-kenteken', 'huidig-merk', 'huidig-model'));
     if (nieuwKenteken) nieuwKenteken.addEventListener('blur', () => fetchRDWData('nieuw-kenteken', 'nieuw-merk', 'nieuw-model'));
 });
-
-
