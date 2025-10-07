@@ -79,6 +79,7 @@ document.getElementById('contact-form').addEventListener('submit', function (eve
     let emailBody = "Contactverzoek Klaas Vis Assurantiekantoor\n\n";
 
     for (let [key, value] of formData.entries()) {
+            if (key === 'g-recaptcha-response') continue; // ⬅️ sla reCAPTCHA-veld over
         if (value && value.trim() !== '') {
             emailBody += `${key}: ${value}\n`;
         }
@@ -159,3 +160,4 @@ document.addEventListener('DOMContentLoaded', () => {
     if (huidigKenteken) huidigKenteken.addEventListener('blur', () => fetchRDWData('huidig-kenteken', 'huidig-merk', 'huidig-model'));
     if (nieuwKenteken) nieuwKenteken.addEventListener('blur', () => fetchRDWData('nieuw-kenteken', 'nieuw-merk', 'nieuw-model'));
 });
+
