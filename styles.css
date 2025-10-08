@@ -33,49 +33,7 @@ h1 {
     color: #003087;
     margin-top: 10px;
 }
-/* Menubalk */
-.nav {
-    background: #003087;
-    padding: 10px 20px;
-    text-align: center;
-}
 
-.nav-list {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-}
-
-.nav-list li {
-    display: inline-block;
-}
-
-.nav-list a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    padding: 8px 12px;
-    transition: background 0.3s;
-}
-
-.nav-list a:hover {
-    background: #007bff;
-    border-radius: 5px;
-}
-
-.hamburger {
-    display: none;
-    font-size: 24px;
-    color: #fff;
-    background: none;
-    border: none;
-    cursor: pointer;
-    position: absolute;
-    right: 20px;
-    top: 10px;
-}
 /* Container */
 .container {
     flex: 1;
@@ -305,4 +263,3 @@ h2 {
         padding: 15px;
     }
 }
-
