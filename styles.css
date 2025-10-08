@@ -59,7 +59,77 @@ h1 {
     flex: 1;
     min-width: 300px;
 }
+/* Navigatiebalk */
+.nav {
+    background-color: #003087;
+    padding: 10px 0;
+    text-align: center;
+}
 
+.nav-list {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-list li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 8px 15px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-list li a:hover {
+    background-color: #0056b3;
+}
+
+/* Hamburger voor mobiel */
+.hamburger {
+    display: none;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+
+/* Mobiel menu */
+@media (max-width: 768px) {
+    .nav-list {
+        display: none;
+        flex-direction: column;
+        background-color: #003087;
+        width: 100%;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        z-index: 10;
+        padding: 15px 0;
+    }
+
+    .nav-list.active {
+        display: flex;
+    }
+
+    .hamburger {
+        display: block;
+        position: absolute;
+        top: 25px;
+        right: 25px;
+    }
+
+    .nav-list li a {
+        padding: 12px;
+        font-size: 1.1rem;
+    }
+}
 h2 {
     font-size: 1.5rem;
     color: #003087;
@@ -263,3 +333,4 @@ h2 {
         padding: 15px;
     }
 }
+
